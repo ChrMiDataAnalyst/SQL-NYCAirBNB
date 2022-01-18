@@ -1,0 +1,68 @@
+/*
+
+Cleaning Data in SQL Queries
+
+*/
+
+--First Overview (Check of the import data)
+
+SELECT *
+	FROM [NYC_AirBNB-01]..AB_NYC_2019;
+
+--Reordering of rows ascending by id
+
+SELECT *
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	ORDER BY id ASC;
+
+--Deleting of non-relevant columns
+
+ALTER TABLE [NYC_AirBNB-01]..AB_NYC_2019
+	DROP COLUMN F17, F18 , last_review;
+
+--Deleting of rows corresponding to rooms with zero availability or NULL
+
+DELETE 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	WHERE availability_365 = 0
+DELETE 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	WHERE availability_365 is null;
+
+
+--Deleting of rows with prices lower than 30
+
+DELETE 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	WHERE price < 30;
+
+--Check if there any rooms with id = null
+
+SELECT * 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	WHERE id is null;
+--Alternative code
+SELECT * 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+		WHERE isnumeric(id) <>1;
+
+		
+--Deleting of rows where id is NULL
+
+DELETE 
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	WHERE id is null;
+
+--Check if there duplicates
+
+SELECT id,
+	count(*) AS cnt
+		FROM [NYC_AirBNB-01]..AB_NYC_2019
+		GROUP BY id
+			HAVING count(*) > 1;
+
+SELECT TOP 10 price
+	FROM [NYC_AirBNB-01]..AB_NYC_2019
+	ORDER BY price desc;
+
+
